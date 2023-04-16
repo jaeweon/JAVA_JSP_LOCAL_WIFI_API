@@ -36,7 +36,7 @@
                         '<th scope="col">'+item.X_SWIFI_WRDOFC+'</th>'+   //자치구
                         '<th scope="col">'+item.X_SWIFI_MAIN_NM+'</th>'+  //와이파이명
                         '<th scope="col">'+item.X_SWIFI_ADRES1+'</th>'+   //도로명주소
-                        '<th scope="col">-</th>'+   // 상세주소
+                        '<th scope="col">'+X_SWIFI_ADRES2+'</th>'+   // 상세주소
                         '<th scope="col">'+item.X_SWIFI_ADRES2+'</th>'+  //설치위치(층)
                         '<th scope="col">'+item.X_SWIFI_INSTL_TY+'</th>'+   // 설치유형
                         '<th scope="col">'+item.X_SWIFI_INSTL_MBY+'</th>'+   //설치기관
