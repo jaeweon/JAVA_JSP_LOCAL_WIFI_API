@@ -10,16 +10,31 @@
           rel="stylesheet"
           integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx"
           crossorigin="anonymous">
-    <link rel="stylesheet" href="lib/index.css"/>
+    <link rel="stylesheet" href="index.css"/>
 
 
     <script src="https://code.jquery.com/jquery-3.6.1.min.js"
             integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ="
             crossorigin="anonymous"></script>
 
-
 </head>
 <script>
+    navigator.geolocation.getCurrentPosition(getSuccess, getError);
+    function getSuccess(position){
+        const lat = position.coords.latitude;
+        const lng = position.coords.longitude;
+        const accuracy = Math.floor(position.coords.accuracy);
+        $("#create").on("click",function(){
+            $('input[name=inputLAT]').attr('value',lat);
+            $('input[name=inputLNT]').attr('value',lng);
+        });
+
+    }
+    function getError() {
+        alert('Geolocation Error');
+    }
+
+
     $(document).ready(function(){
         //alert('페이지 로드!');
         $.ajax({
@@ -31,23 +46,23 @@
                 $.each(list.TbPublicWifiInfo.row,function(index, item){
                     $('#wifi-list').append(
                         '<tr>'+
-                        '<th scope="col">-</th>'+  //거리
-                        '<th scope="col">'+item.X_SWIFI_MGR_NO+'</th>'+   //관리번호
-                        '<th scope="col">'+item.X_SWIFI_WRDOFC+'</th>'+   //자치구
-                        '<th scope="col">'+item.X_SWIFI_MAIN_NM+'</th>'+  //와이파이명
-                        '<th scope="col">'+item.X_SWIFI_ADRES1+'</th>'+   //도로명주소
-                        '<th scope="col">'+X_SWIFI_ADRES2+'</th>'+   // 상세주소
-                        '<th scope="col">'+item.X_SWIFI_ADRES2+'</th>'+  //설치위치(층)
-                        '<th scope="col">'+item.X_SWIFI_INSTL_TY+'</th>'+   // 설치유형
-                        '<th scope="col">'+item.X_SWIFI_INSTL_MBY+'</th>'+   //설치기관
-                        '<th scope="col">'+item.X_SWIFI_SVC_SE+'</th>'+ // 서비스구분
-                        '<th scope="col">'+item.X_SWIFI_CMCWR+'</th>'+ // 망종류
-                        '<th scope="col">'+item.X_SWIFI_CNSTC_YEAR+'</th>'+ // 설치년도
-                        '<th scope="col">'+item.X_SWIFI_INOUT_DOOR+'</th>'+ //실내외 구분
-                        '<th scope="col">-</th>'+ // wifi 접속 현황 +item.X_SWIFI_REMARS3+
-                        '<th scope="col">'+item.LAT+'</th>'+ // x좌표
-                        '<th scope="col">'+item.LNT+'</th>'+ // y좌표
-                        '<th scope="col">'+item.WORK_DTTM+'</th>'+  //작업일자
+                        '<td scope="col">-</td>'+  //거리
+                        '<td scope="col">'+item.X_SWIFI_MGR_NO+'</td>'+   //관리번호
+                        '<td scope="col">'+item.X_SWIFI_WRDOFC+'</td>'+   //자치구
+                        '<td scope="col">'+item.X_SWIFI_MAIN_NM+'</td>'+  //와이파이명
+                        '<td scope="col">'+item.X_SWIFI_ADRES1+'</td>'+   //도로명주소
+                        '<td scope="col">'+item.X_SWIFI_ADRES2+'</td>'+   // 상세주소
+                        '<td scope="col">'+item.X_SWIFI_INSTL_FLOOR+'</td>'+  //설치위치(층)
+                        '<td scope="col">'+item.X_SWIFI_INSTL_TY+'</td>'+   // 설치유형
+                        '<td scope="col">'+item.X_SWIFI_INSTL_MBY+'</td>'+   //설치기관
+                        '<td scope="col">'+item.X_SWIFI_SVC_SE+'</td>'+ // 서비스구분
+                        '<td scope="col">'+item.X_SWIFI_CMCWR+'</td>'+ // 망종류
+                        '<td scope="col">'+item.X_SWIFI_CNSTC_YEAR+'</td>'+ // 설치년도
+                        '<td scope="col">'+item.X_SWIFI_INOUT_DOOR+'</td>'+ //실내외 구분
+                        '<td scope="col">-</td>'+ // wifi 접속 현황 +item.X_SWIFI_REMARS3+
+                        '<td scope="col">'+item.LAT+'</td>'+ // x좌표
+                        '<td scope="col">'+item.LNT+'</td>'+ // y좌표
+                        '<td scope="col">'+item.WORK_DTTM+'</td>'+  //작업일자
                         '</tr>'
                     );
                 });
@@ -60,6 +75,13 @@
         });
 
 
+    });
+    // $("div").html(navigator.geolocation.getCurrentPosition(getSuccess, getError));
+
+    $(function (){
+        $("#create").on("click",function(){
+            $('input[name=inputValue]').attr('value',navigator.geolocation.getCurrentPosition(getSuccess));
+        });
     });
 </script>
 
@@ -74,19 +96,23 @@
     <a href="load_api.jsp">Open API 와이파이 정보 가져오기</a>
 </div>
 
+
+
+
+
 <div style="margin-top:20px;">
     <span>LAT</span>
-    <input/>
+    <input name="inputLAT" value=""/>
     ,
     <span>LNT</span>
-    <input/>
-    <button>내위치 가져오기</button>
+    <input name="inputLNT" value=""/>
+    <button id="create">내위치 가져오기</button>
     <button>근처 WIFI 정보보기</button>
     <button id="load-btn">데이터로드</button>
 </div>
 
 
-<table class="table" style="margin-top:30px;">
+<table class="table" style="margin-top:30px;" id="customers">
     <thead class="index-thead">
     <tr>
         <th scope="col">거리(km)</th>
